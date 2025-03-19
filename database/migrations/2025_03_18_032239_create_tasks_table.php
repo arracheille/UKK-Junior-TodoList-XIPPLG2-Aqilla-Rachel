@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('task', 255);
+            $table->text('description');
             $table->enum('priority', ['1', '2', '3']);
             $table->date('due_date');
             $table->tinyInteger('status')->default(0);

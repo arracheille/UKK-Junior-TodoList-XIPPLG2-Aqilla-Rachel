@@ -11,12 +11,14 @@ class TaskController extends Controller
     {
         $tasks = $request->validate([
             'task' => 'required',
+            'description' => 'required',
             'priority' => 'required',
             'due_date' => 'required',
             'status' => 'required',
         ]);
 
         $tasks['task'] = $request->task;
+        $tasks['description'] = $request->description;
         $tasks['priority'] = $request->priority;
         $tasks['due_date'] = $request->due_date;
         $tasks['status'] = $request->status;
@@ -26,9 +28,18 @@ class TaskController extends Controller
         return redirect()->route('task.index');
     }
 
-    public function update(Task $task)
+    public function edit(Task $task)
     {
-        $task->update(['status' => 1]);
+        return view('tasks.index', compact('task'));
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $tasks = $request->validate([
+            'status' => 'required|boolean',
+        ]);
+
+        $task->update($tasks);
 
         return redirect()->route('task.index');
     }

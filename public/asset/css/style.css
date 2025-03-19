@@ -1,0 +1,216 @@
+:root {
+    --cream: #f5f3c1;
+    --light-green: #27e1c1;
+    --mid-green: #0ea293;
+    --dark-blue: #2f0f5d;
+
+    --dark-01: rgb(47, 15, 93, 0.1);
+    --dark-02: rgb(47, 15, 93, 0.2);
+    --dark-03: rgb(47, 15, 93, 0.3);
+    --dark-05: rgba(48, 15, 93, 0.5);
+    --dark-08: rgba(48, 15, 93, 0.8);
+}
+body {
+    background: linear-gradient(135deg, var(--cream), var(--light-green));
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    color: var(--dark-blue);
+}
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+.content {
+    box-shadow: 0 4px 6px var(--dark-01);
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+.content:first-child {
+    max-width: 22vw;
+}
+.content:last-child {
+    max-width: 53vw;
+}
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+h1 span {
+    margin-left: 10px;
+}
+input,
+select,
+textarea,
+.btn-filter {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--dark-02);
+    color: var(--dark-blue);
+    background-color: white;
+    border-radius: 5px;
+    outline: none;
+}
+input::placeholder {
+    color: var(--dark-03);
+}
+textarea{
+    resize: none;
+}
+.input-group,
+.filter-content,
+.filter-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.input-group button,
+.filter-content form button {
+    background: var(--mid-green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.input-group button:hover {
+    background: #0c8377;
+}
+.content-heading {
+    display: flex;
+    justify-content: space-between;
+}
+.filter-search {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+.btn-icon {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+.filter-container {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 50px;
+    background-color: white;
+    border: 1px solid var(--dark-02);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9;
+}
+table {
+    width: 100%;
+}
+td span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+td.number span {
+    padding-right: 10px;
+    font-weight: 600;
+}
+td.action span {
+    justify-content: flex-end;
+}
+td span .due-date {
+    color: var(--dark-05);
+    font-size: 14px;
+}
+td span .priority,
+td span .btn-done,
+td span .btn-undone,
+td span .btn-complete,
+td span .btn-delete {
+    font-size: 12px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+}
+td span .btn-complete {
+    padding: 3px 5px;
+}
+td span .high,
+td span .btn-undone {
+    background: red;
+    color: var(--cream);
+}
+td span .medium {
+    background: orange;
+    color: var(--cream);
+}
+td span .low {
+    background: var(--cream);
+    color: #0c8377;
+}
+td span .btn-done,
+td span .btn-complete {
+    background: var(--mid-green);
+    color: var(--cream);
+}
+td span .btn-complete:hover {
+    background-color: #0c8377;
+}
+td span .btn-delete:hover {
+    background-color: rgb(202, 0, 0);
+}
+td span .btn-delete {
+    background-color: red;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+td span .btn-complete i,
+td span .btn-delete i {
+    color: var(--cream);
+}
+td span button {
+    background: none;
+    border: none;
+    color: var(--dark-05);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.3s;
+    transition: background 0.3s, color 0.3s;
+}
+td span button:hover {
+    color: var(--dark-08);
+}
+.active {
+    text-decoration: active;
+    color: var(--dark-05);
+    text-decoration: line-through;
+}

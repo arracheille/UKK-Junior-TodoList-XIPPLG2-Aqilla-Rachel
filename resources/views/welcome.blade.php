@@ -13,184 +13,7 @@
 
         <script src="https://kit.fontawesome.com/1a293db120.js" crossorigin="anonymous"></script>
 
-        <style>
-        :root {
-            --cream: #f5f3c1;
-            --light-green: #27e1c1;
-            --mid-green: #0ea293;
-            --dark-blue: #2f0f5d;
-
-            --dark-01: rgb(47, 15, 93, 0.1);
-            --dark-02: rgb(47, 15, 93, 0.2);
-            --dark-03: rgb(47, 15, 93, 0.3);
-            --dark-05: rgba(48, 15, 93, 0.5);
-            --dark-08: rgba(48, 15, 93, 0.8);
-        }
-        body {
-            background: linear-gradient(
-            135deg,
-            var(--cream),
-            var(--light-green)
-            );
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
-            color: var(--dark-blue);
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-        }
-        .content {
-            box-shadow: 0 4px 6px var(--dark-01);
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            width: 100%;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        .content:first-child{
-            max-width: 22vw;
-        }
-        .content:last-child{
-            max-width: 53vw;
-        }
-        h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark-blue);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        h1 span {
-            margin-left: 10px;
-        }
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .input-group input,
-        .input-group select {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid var(--dark-02);
-            color: var(--dark-blue);
-            border-radius: 5px;
-            outline: none;
-        }
-        .input-group input::placeholder {
-            color: var(--dark-03);
-        }
-        .input-group button {
-            background: var(--mid-green);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .input-group button:hover {
-            background: #0c8377;
-        }
-        table{
-            width: 100%;
-        }
-        td span{
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-        }
-        td.action span{
-            justify-content: flex-end;
-        }
-        td.number span{
-            padding-right: 10px;
-            font-weight: 600;
-        }
-        td span .due-date {
-            color: var(--dark-05);
-            font-size: 14px;
-        }
-        td span .priority, 
-        td span .btn-done,
-        td span .btn-undone,
-        td span .btn-complete{
-            font-size: 12px;
-            padding: 1px 5px;
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: 600;
-            text-align: center;
-        }
-        td span .btn-complete{
-            padding: 3px 5px;
-        }
-        td span .high, 
-        td span .btn-undone { 
-            background: red; 
-            color: var(--cream); 
-        }
-        td span .medium { 
-            background: orange;
-            color: var(--cream);
-         }
-        td span .low { 
-            background: var(--cream);
-            color: #0c8377;
-        }
-        td span .btn-done, 
-        td span .btn-complete{
-            background: var(--mid-green);
-            color: var(--cream);
-        }
-        td span .btn-complete:hover{
-            background-color: #0c8377;
-        }
-        td span .btn-delete:hover{
-            background-color: rgb(202, 0, 0);
-        }
-        tr td span .btn-delete{
-            background-color: red;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        tr td span .btn-complete i, 
-        tr td span .btn-delete i{
-            color: var(--cream);
-        }
-        tr td span button {
-            background: none;
-            border: none;
-            color: var(--dark-05);
-            cursor: pointer;
-            font-size: 16px;
-            transition: color 0.3s;
-            transition: background 0.3s, color 0.3s;
-        }
-        tr td span button:hover {
-            color: var(--dark-08);
-        }
-        .active {
-            text-decoration: active;
-            color: var(--dark-05);
-            text-decoration: line-through;
-        }
-        </style>
+        <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
     </head>
     <body>
         <div class="container">
@@ -199,28 +22,82 @@
                 <form action="{{ route('task.store') }}" method="POST" class="input-group">
                     @csrf
 
-                    <input type="text" name="task" placeholder="Judul Task" autocomplete="off" required />
+                    <div class="input-container">
 
-                    <select name="priority" id="priority" required>
+                        <label for="task">Nama Task</label>
+                        <input type="text" name="task" id="task" placeholder="Masukkan Task Baru" autocomplete="off" required />
+
+                    </div>
+
+                    <div class="input-container">
+
+                        <label for="description">Deskripsi Task</label>
+                        <textarea name="description" id="description" required ></textarea>
+
+                    </div>
+
+                    <div class="input-container">
                         
-                        <option value="" disabled selected>
-                            Choose Priority
-                        </option>
-                        <option value="1">Low</option>
-                        <option value="2">Medium</option>
-                        <option value="3">High</option>
+                        <label for="priority">Prioritas</label>
+                        <select name="priority" id="priority" required>
+                            
+                            <option value="" disabled selected>
+                                -- Pilih Prioritas --
+                            </option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
 
-                    </select>
+                        </select>
+                    </div>
+                    <div class="input-container">
 
-                    <input type="date" name="due_date" id="due_date" required />
+                        <label for="due_date">Tanggal</label>
+                        <input type="date" name="due_date" id="due_date" required />
 
+                    </div>
                     <input type="hidden" name="status" value="0">
 
                     <button>Add</button>
                 </form>
             </div>
             <div class="content">
-                <h1>My To-Do Lists <span>📋</span></h1>
+                <div class="content-heading">
+                    <h1>My To-Do Lists <span>📋</span></h1>
+                    <div class="filter-search">
+                        <button class="btn-filter btn-icon" onclick="ShowFilter()">Filter List <i class="fa-solid fa-caret-down"></i></button>
+                        <div class="filter-container" id="filter-container">
+                            <div class="filter-content">
+                                <div class="content-heading">
+                                    <p>Filter Berdasarkan..</p>
+                                    <p onclick="CloseFilter()" style="cursor: pointer;">&times;</p>
+                                </div>
+                                <form action="{{ route('task.index') }}" method="GET">
+                                    <select name="filter_status" id="filter_status">
+                                        <option value="" disabled selected>-- Berdasarkan Status --</option>
+                                        <option value="all">Semua</option>
+                                        <option value="done">Sudah Selesai</option>
+                                        <option value="undone">Belum Selesai</option>
+                                    </select>
+                                
+                                    <select name="filter_priority" id="filter_priority">
+                                        <option value="" disabled selected>-- Berdasarkan Prioritas --</option>
+                                        <option value="all">Semua</option>
+                                        <option value="1">Low</option>
+                                        <option value="2">Medium</option>
+                                        <option value="3">High</option>
+                                    </select>
+                                
+                                    <input type="date" name="filter_date">
+                                
+                                    <button type="submit">Filter</button>
+                                </form>
+                            </div>
+                        </div>
+                    
+                        <input type="text" name="search" id="search" placeholder="Cari Data..">
+                    </div>
+                </div>
                 <table>
                     @forelse ($tasks as $task)
                     <tr>
@@ -259,12 +136,15 @@
                         </td>
                         <td class="action">
                             <span>
-                                <form action="{{ route('task.update', $task->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('task.edit', $task->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('PUT')
                                     @if ($task->status == 1)
+                                        <input type="hidden" name="status" value="0">
+                                        <button type="submit" class="btn-delete" ><i class="fa-solid fa-xmark"></i>  Belum Selesai</button>
                                     @else
-                                        <button type="submit" class="btn-complete" title="Selesaikan"><i class="fa-solid fa-check"></i>  Selesai</button>
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" class="btn-complete" ><i class="fa-solid fa-check"></i>  Selesai</button>
                                     @endif
                                 </form>
                                 <form action="{{ route('task.delete', $task->id) }}" method="POST" style="display: inline;">
@@ -290,6 +170,24 @@
         
         <script>
             document.getElementById('due_date').min = new Date().toISOString().split("T")[0];
+
+            function ShowFilter() {
+                const filterContainer = document.getElementById('filter-container');
+                filterContainer.style.display = 'block'; // Tampilkan filter container
+            }
+
+            function CloseFilter() {
+                const filterContainer = document.getElementById('filter-container');
+                filterContainer.style.display = 'none'; // Sembunyikan filter container
+            }
+
+            // Menyembunyikan filter container jika pengguna mengklik di luar
+            window.onclick = function(event) {
+                const filterContainer = document.getElementById('filter-container');
+                if (!event.target.matches('.btn-filter') && !filterContainer.contains(event.target)) {
+                    filterContainer.style.display = 'none';
+                }
+            }
         </script>
     </body>
 </html>
