@@ -61,10 +61,10 @@
             overflow-y: auto;
         }
         .content:first-child{
-            max-width: 25vw;
+            max-width: 22vw;
         }
         .content:last-child{
-            max-width: 50vw;
+            max-width: 53vw;
         }
         h1 {
             font-size: 24px;
@@ -118,8 +118,9 @@
         td.action span{
             justify-content: flex-end;
         }
-        td.task{
-            padding: 0 10px;
+        td.number span{
+            padding-right: 10px;
+            font-weight: 600;
         }
         td span .due-date {
             color: var(--dark-05);
@@ -215,6 +216,9 @@
                 <table>
                     @forelse ($tasks as $task)
                     <tr>
+                        <td class="number">
+                            <span>{{ $loop->iteration }}</span>
+                        </td>
                         <td class="status">
                             <span>
                                 @if ($task->status == 1)
@@ -222,12 +226,6 @@
                                 @else
                                     <p type="submit" class="btn-undone">Belum Selesai</p>
                                 @endif
-                            </span>
-                        </td>
-                        <td class="task">
-                            <span>
-                                <p class="{{ $task->status == 1 ? 'active' : '' }}">{{ $task->task }}</p>
-                                <p class="due-date">Due {{ $task->due_date }}</p>
                                 @php
                                     $priorityvalue = [
                                         1 => 'high',
@@ -237,11 +235,18 @@
                                 @endphp
 
                                 <p class="priority {{ $priorityvalue }}">
-                                    @if($task->priority == 1) Priority High
-                                    @elseif($task->priority == 2) Priority Medium
-                                    @else Priority Low
+                                    @if($task->priority == 1) High
+                                    @elseif($task->priority == 2) Medium
+                                    @else Low
                                     @endif
                                 </p>
+
+                                <p class="due-date">Due {{ $task->due_date }}</p>
+                            </span>
+                        </td>
+                        <td class="task">
+                            <span>
+                                <p class="{{ $task->status == 1 ? 'active' : '' }}">{{ $task->task }}</p>
                             </span>
                         </td>
                         <td class="action">

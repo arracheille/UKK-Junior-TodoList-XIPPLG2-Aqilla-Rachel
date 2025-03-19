@@ -35,7 +35,7 @@ class TaskController extends Controller
     {
         $task->update(['status' => 1]);
 
-        return redirect()->route('task.index')->with('success', 'Task berhasil diselesaikan');
+        return redirect()->route('task.index');
     }
 
     public function destroy(Task $task)
