@@ -159,8 +159,19 @@
             color: var(--cream);
         }
         td span .btn-complete:hover{
-            color: var(--cream);
             background-color: #0c8377;
+        }
+        td span .btn-delete:hover{
+            background-color: rgb(202, 0, 0);
+        }
+        tr td span .btn-delete{
+            background-color: red;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        tr td span .btn-complete i, 
+        tr td span .btn-delete i{
+            color: var(--cream);
         }
         tr td span button {
             background: none;
@@ -173,9 +184,6 @@
         }
         tr td span button:hover {
             color: var(--dark-08);
-        }
-        tr td span button i{
-            color: var(--cream);
         }
         .active {
             text-decoration: active;
@@ -262,7 +270,7 @@
                                 <form action="{{ route('task.delete', $task->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" title="Hapus">&times;</button>
+                                    <button type="submit" class="btn-delete" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
                                 </form>
                             </span>
                         </td>
