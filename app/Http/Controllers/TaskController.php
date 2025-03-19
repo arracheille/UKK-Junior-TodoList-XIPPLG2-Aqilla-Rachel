@@ -26,11 +26,6 @@ class TaskController extends Controller
         return redirect()->route('task.index');
     }
 
-    public function edit(Task $task)
-    {
-        return view('tasks.index', compact('task'));
-    }
-
     public function update(Task $task)
     {
         $task->update(['status' => 1]);

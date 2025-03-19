@@ -195,24 +195,24 @@
     <body>
         <div class="container">
             <div class="content">
-                <h1>To-Do List <span>📋</span></h1>
+                <h1>To-Do Form <span>📋</span></h1>
                 <form action="{{ route('task.store') }}" method="POST" class="input-group">
                     @csrf
 
-                    <input type="text" name="task" placeholder="Judul Task" />
+                    <input type="text" name="task" placeholder="Judul Task" autocomplete="off" required />
 
-                    <select name="priority" id="priority">
+                    <select name="priority" id="priority" required>
                         
                         <option value="" disabled selected>
                             Choose Priority
                         </option>
-                        <option value="1">High</option>
+                        <option value="1">Low</option>
                         <option value="2">Medium</option>
-                        <option value="3">Low</option>
+                        <option value="3">High</option>
 
                     </select>
 
-                    <input type="date" name="due_date" id="due_date" />
+                    <input type="date" name="due_date" id="due_date" required />
 
                     <input type="hidden" name="status" value="0">
 
@@ -236,16 +236,16 @@
                                 @endif
                                 @php
                                     $priorityvalue = [
-                                        1 => 'high',
+                                        1 => 'low',
                                         2 => 'medium',
-                                        3 => 'low'
+                                        3 => 'high'
                                     ][$task->priority] ?? 'default';
                                 @endphp
 
                                 <p class="priority {{ $priorityvalue }}">
-                                    @if($task->priority == 1) High
+                                    @if($task->priority == 1) Low
                                     @elseif($task->priority == 2) Medium
-                                    @else Low
+                                    @else High
                                     @endif
                                 </p>
 
@@ -281,10 +281,15 @@
                 </table>
             </div>
         </div>
+        
         @if(session('success'))
             <script>
                 alert("{{ session('success') }}");
             </script>
         @endif
+        
+        <script>
+            document.getElementById('due_date').min = new Date().toISOString().split("T")[0];
+        </script>
     </body>
 </html>

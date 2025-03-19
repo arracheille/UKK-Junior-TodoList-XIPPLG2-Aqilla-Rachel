@@ -13,6 +13,5 @@ Route::get('/', function () {
 })->name('task.index');
 
 Route::post('/post-task', [TaskController::class, 'store'])->name('task.store');
-Route::get('/edit-task/{task}', [TaskController::class, 'edit'])->name('task.edit');
 Route::put('/edit-task/{task}', [TaskController::class, 'update'])->name('task.update');
 Route::delete('/delete-task/{task}', [TaskController::class, 'destroy'])->name('task.delete');
