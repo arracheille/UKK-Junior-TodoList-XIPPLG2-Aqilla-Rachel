@@ -31,8 +31,8 @@
 
                     <div class="input-container">
 
-                        <label for="description">Deskripsi Task</label>
-                        <textarea name="description" id="description" required ></textarea>
+                        <label for="description">Deskripsi Task (Opsional)</label>
+                        <textarea name="description" id="description" ></textarea>
 
                     </div>
 
@@ -50,59 +50,87 @@
 
                         </select>
                     </div>
+
                     <div class="input-container">
 
                         <label for="due_date">Tanggal</label>
                         <input type="date" name="due_date" id="due_date" required />
 
                     </div>
+
                     <input type="hidden" name="status" value="0">
 
-                    <button>Add</button>
+                    <button class="btn">Add</button>
                 </form>
             </div>
             <div class="content">
                 <div class="content-heading">
                     <h1>My To-Do Lists <span>📋</span></h1>
                     <div class="filter-search">
-                        <button class="btn-filter btn-icon" onclick="ShowFilter()">Filter List <i class="fa-solid fa-caret-down"></i></button>
-                        <div class="filter-container" id="filter-container">
-                            <div class="filter-content">
-                                <div class="content-heading">
-                                    <p>Filter Berdasarkan..</p>
-                                    <p onclick="CloseFilter()" style="cursor: pointer;">&times;</p>
+                        <button class="btn-filter" onclick="ShowFilter()">Filter List <i class="fa-solid fa-caret-down"></i></button>
+                        <form action="{{ route('task.index') }}" method="GET" class="filter-form">
+                            <div class="filter-container" id="filter-container">
+                                <div class="filter-content">
+                                    <div class="content-heading">
+                                        <p>Filter Berdasarkan..</p>
+                                        <p onclick="CloseFilter()" style="cursor: pointer;">&times;</p>
+                                    </div>
+                                    <div class="filter-inputs">
+                                        <select name="filter_status" id="filter_status">
+                                            <option value="" disabled selected>-- Berdasarkan Status --</option>
+                                            <option value="all" {{ request('filter_status') == 'all' ? 'selected' : '' }}>Semua</option>
+                                            <option value="done" {{ request('filter_status') == 'done' ? 'selected' : '' }}>Sudah Selesai</option>
+                                            <option value="undone" {{ request('filter_status') == 'undone' ? 'selected' : '' }}>Belum Selesai</option>
+                                        </select>
+                                    
+                                        <select name="filter_priority" id="filter_priority">
+                                            <option value="" disabled selected>-- Berdasarkan Prioritas --</option>
+                                            <option value="all" {{ request('filter_priority') == 'all' ? 'selected' : '' }}>Semua</option>
+                                            <option value="1" {{ request('filter_priority') == '1' ? 'selected' : '' }}>Low</option>
+                                            <option value="2" {{ request('filter_priority') == '2' ? 'selected' : '' }}>Medium</option>
+                                            <option value="3" {{ request('filter_priority') == '3' ? 'selected' : '' }}>High</option>
+                                        </select>
+                                    
+                                        <button type="submit" class="btn">Filter</button>
+                                    </div>
                                 </div>
-                                <form action="{{ route('task.index') }}" method="GET">
-                                    <select name="filter_status" id="filter_status">
-                                        <option value="" disabled selected>-- Berdasarkan Status --</option>
-                                        <option value="all">Semua</option>
-                                        <option value="done">Sudah Selesai</option>
-                                        <option value="undone">Belum Selesai</option>
-                                    </select>
-                                
-                                    <select name="filter_priority" id="filter_priority">
-                                        <option value="" disabled selected>-- Berdasarkan Prioritas --</option>
-                                        <option value="all">Semua</option>
-                                        <option value="1">Low</option>
-                                        <option value="2">Medium</option>
-                                        <option value="3">High</option>
-                                    </select>
-                                
-                                    <input type="date" name="filter_date">
-                                
-                                    <button type="submit">Filter</button>
-                                </form>
                             </div>
-                        </div>
-                    
-                        <input type="text" name="search" id="search" placeholder="Cari Data..">
+                        
+                            <div class="search-input">
+                                <input type="text" name="search" id="search" placeholder="Cari Data.." value="{{ request('search') }}" autocomplete="off">
+                                <button class="btn search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <table>
                     @forelse ($tasks as $task)
                     <tr>
                         <td class="number">
-                            <span>{{ $loop->iteration }}</span>
+                            <span>
+                                {{ $loop->iteration }}
+                            </span>
+                        </td>
+                        <td class="check">
+                            <span>
+                                <form action="{{ route('task.edit', $task->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('PUT')
+                                    @if ($task->status == 1)
+                                        <input type="hidden" name="status" value="0">
+                                        <button type="submit" class="btn-checkbox" style="background-color: var(--mid-green);" ><i class="fa-solid fa-check"></i></button>
+                                        @else
+                                        <input type="hidden" name="status" value="1">
+                                        <button type="submit" class="btn-checkbox" style="border: solid 2px var(--mid-green);" ></button>
+                                    @endif
+                                </form>
+                            </span>
+                        </td>
+                        <td class="task">
+                            <span>
+                                <p class="{{ $task->status == 1 ? 'active' : '' }} title">{{ $task->task }}</p>
+                                <p class="text-small">{{ $task->description }}</p>
+                            </span>
                         </td>
                         <td class="status">
                             <span>
@@ -126,37 +154,80 @@
                                     @endif
                                 </p>
 
-                                <p class="due-date">Due {{ $task->due_date }}</p>
-                            </span>
-                        </td>
-                        <td class="task">
-                            <span>
-                                <p class="{{ $task->status == 1 ? 'active' : '' }}">{{ $task->task }}</p>
+                                <p class="text-small">Due {{ $task->due_date }}</p>
                             </span>
                         </td>
                         <td class="action">
                             <span>
-                                <form action="{{ route('task.edit', $task->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('PUT')
-                                    @if ($task->status == 1)
-                                        <input type="hidden" name="status" value="0">
-                                        <button type="submit" class="btn-delete" ><i class="fa-solid fa-xmark"></i>  Belum Selesai</button>
-                                    @else
-                                        <input type="hidden" name="status" value="1">
-                                        <button type="submit" class="btn-complete" ><i class="fa-solid fa-check"></i>  Selesai</button>
-                                    @endif
-                                </form>
+                                <button class="btn-icon edit" onclick="openEditModal({{ $task->id }})"><i class="fa-solid fa-pen"></i></button>
                                 <form action="{{ route('task.delete', $task->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-delete" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="submit" class="btn-icon delete"><i class="fa-solid fa-trash-can"></i></button>
                                 </form>
                             </span>
                         </td>
                     </tr>
+                    <div id="editTaskModal-{{ $task->id }}" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-title-close">
+                                <h2>Edit Task <span>{{ $task->task }}</span></h2>
+                                <span class="close" onclick="closeEditModal('{{ $task->id }}')">&times;</span>
+                            </div>
+                    
+                            <form action="{{ route('task.edit', ['task' => $task->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="input-container">
+
+                                    <label for="task">Nama Task</label>
+                                    <input type="text" name="task" id="task" value="{{ $task->task }}" autocomplete="off" required />
+            
+                                </div>
+            
+                                <div class="input-container">
+            
+                                    <label for="description">Deskripsi Task (Opsional)</label>
+                                    <textarea name="description" id="description" >{{ $task->description }}</textarea>
+            
+                                </div>
+            
+                                <div class="input-container">
+                                    
+                                    <label for="priority">Prioritas</label>
+                                    <select name="priority" id="priority">
+                                        
+                                        <option value="1" {{ $task->priority == 1 ? 'selected' : '' }}>Low</option>
+                                        <option value="2" {{ $task->priority == 2 ? 'selected' : '' }}>Medium</option>
+                                        <option value="3" {{ $task->priority == 3 ? 'selected' : '' }}>High</option>
+
+                                    </select>
+                                </div>
+                                
+                                <div class="input-container">
+            
+                                    <label for="due_date">Tanggal</label>
+                                    <input type="date" name="due_date" class="due-date" value="{{ old('due_date', \Carbon\Carbon::parse($task->due_date)->format('Y-m-d')) }}" />
+            
+                                </div>
+
+                                <input type="hidden" id="editTaskId-{{ $task->id }}" name="id_category">
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn" onclick="closeEditModal('{{ $task->id }}')">
+                                        Cancel
+                                    </button>
+                                    
+                                    <button type="submit" class="btn" id="modal-submit-btn">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     @empty
-                        <p>Anda belum menambahkan Task!</p>
+                        <p>Tidak ada task!</p>
                     @endforelse
                 </table>
             </div>
@@ -171,17 +242,29 @@
         <script>
             document.getElementById('due_date').min = new Date().toISOString().split("T")[0];
 
+            document.querySelectorAll('.due-date').forEach(function(input) {
+                input.min = new Date().toISOString().split("T")[0];
+            });
+            
+            function openEditModal(id) {
+                document.getElementById('editTaskModal-' + id).style.display = 'block';
+                document.getElementById('editTaskId-' + id).value = id;
+            }
+
+            function closeEditModal(id) {
+                document.getElementById('editTaskModal-' + id).style.display = 'none';
+            }
+
             function ShowFilter() {
                 const filterContainer = document.getElementById('filter-container');
-                filterContainer.style.display = 'block'; // Tampilkan filter container
+                filterContainer.style.display = 'block';
             }
 
             function CloseFilter() {
                 const filterContainer = document.getElementById('filter-container');
-                filterContainer.style.display = 'none'; // Sembunyikan filter container
+                filterContainer.style.display = 'none';
             }
 
-            // Menyembunyikan filter container jika pengguna mengklik di luar
             window.onclick = function(event) {
                 const filterContainer = document.getElementById('filter-container');
                 if (!event.target.matches('.btn-filter') && !filterContainer.contains(event.target)) {

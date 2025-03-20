@@ -8,22 +8,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function (Request $request) {
     $tasks = Task::query();
 
-    // Filter berdasarkan status
     if ($request->filled('filter_status') && $request->filter_status !== 'all') {
         $tasks->where('status', $request->filter_status === 'done' ? 1 : 0);
     }
 
-    // Filter berdasarkan prioritas
     if ($request->filled('filter_priority') && $request->filter_priority !== 'all') {
         $tasks->where('priority', $request->filter_priority);
     }
 
-    // Filter berdasarkan tanggal
-    if ($request->filled('filter_date')) {
-        $tasks->whereDate('due_date', $request->filter_date);
+    if ($request->filled('search')) {
+        $searchbar = $request->search;
+        $tasks->where(function($query) use ($searchbar) {
+            $query->where('task', 'like', '%' . $searchbar . '%')
+                  ->orWhere('status', 'like', '%' . $searchbar . '%')
+                  ->orWhere('priority', 'like', '%' . $searchbar . '%')
+                  ->orWhere('due_date', 'like', '%' . $searchbar . '%');
+        });
     }
 
-    // Ambil data yang sudah difilter
     $tasks = $tasks->orderBy('status', 'asc')
                    ->orderBy('priority', 'desc')
                    ->orderBy('due_date', 'asc')

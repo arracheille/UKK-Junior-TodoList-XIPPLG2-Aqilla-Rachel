@@ -72,12 +72,41 @@ textarea,
 input::placeholder {
     color: var(--dark-03);
 }
-textarea{
+textarea {
     resize: none;
+}
+button {
+    transition: all 0.3s;
+}
+.text-small {
+    color: var(--dark-05);
+    font-size: 14px;
+}
+.btn {
+    background: var(--mid-green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.btn-checkbox,
+.btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+}
+.btn-icon i {
+    font-size: 13px;
 }
 .input-group,
 .filter-content,
-.filter-content form {
+.filter-content .filter-inputs {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -86,16 +115,6 @@ textarea{
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-.input-group button,
-.filter-content form button {
-    background: var(--mid-green);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
 }
 .input-group button:hover {
     background: #0c8377;
@@ -111,11 +130,6 @@ textarea{
     height: 100%;
     position: relative;
 }
-.btn-icon {
-    display: flex;
-    gap: 50px;
-    align-items: center;
-}
 .filter-container {
     display: none;
     position: absolute;
@@ -128,8 +142,33 @@ textarea{
     border-radius: 5px;
     z-index: 9;
 }
+.search-input{
+    display: flex;
+    gap: 10px;
+}
+.search-input .btn{
+    padding: 15px;
+}
+.search-input .btn i{
+    color: var(--cream);
+}
 table {
     width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+td {
+    white-space: nowrap;
+}
+td.number,
+td.check,
+td.status {
+    padding-right: 10px;
+}
+td.task {
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
 }
 td span {
     display: flex;
@@ -138,15 +177,21 @@ td span {
     padding-bottom: 10px;
 }
 td.number span {
-    padding-right: 10px;
     font-weight: 600;
+}
+td.task span {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
 }
 td.action span {
     justify-content: flex-end;
 }
-td span .due-date {
-    color: var(--dark-05);
-    font-size: 14px;
+td span .title {
+    font-weight: 600;
+}
+td span .btn-checkbox i {
+    color: var(--cream);
 }
 td span .priority,
 td span .btn-done,
@@ -213,4 +258,68 @@ td span button:hover {
     text-decoration: active;
     color: var(--dark-05);
     text-decoration: line-through;
+}
+.btn-icon.search{
+    background-color: var(--mid-green);
+}
+.btn-icon.search i{
+    color: var(--cream);
+}
+.btn-icon.edit {
+    background-color: var(--cream);
+}
+.btn-icon.edit i {
+    color: var(--mid-green);
+}
+.btn-icon.delete {
+    background-color: red;
+}
+.btn-icon.delete i {
+    color: var(--cream);
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    width: 50vw;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    max-height: 80vh;
+}
+.modal-title-close,
+.dropdown-title-close {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-title-close .close {
+    float: right;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 40px;
+}
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.modal-content .modal-footer {
+    margin-top: 20px;
 }

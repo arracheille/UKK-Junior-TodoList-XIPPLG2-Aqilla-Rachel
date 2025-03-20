@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
     public function store(Request $request)
     {
         $tasks = $request->validate([
-            'task' => 'required',
-            'description' => 'required',
+            'task' => 'required|string',
+            'description' => 'nullable|string',
             'priority' => 'required',
-            'due_date' => 'required',
-            'status' => 'required',
+            'due_date' => 'required|date',
+            'status' => 'required|boolean',
         ]);
 
         $tasks['task'] = $request->task;
@@ -36,7 +37,11 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $tasks = $request->validate([
-            'status' => 'required|boolean',
+            'task' => 'nullable|string',
+            'description' => 'nullable|string',
+            'priority' => 'nullable',
+            'due_date' => 'nullable|date',
+            'status' => 'nullable|boolean',
         ]);
 
         $task->update($tasks);
